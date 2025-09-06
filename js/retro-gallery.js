@@ -100,7 +100,7 @@ class RetroGallery {
             </div>
             <div class="retro-footer">
                 <marquee behavior="scroll" direction="left" scrollamount="3">
-                    ✨ Add me to your favorites! ✨ Sign my guestbook! ✨ Email me your photos! ✨
+                    ✨ Add me to your favorites! ✨ Take something apart! ✨ Follow me on X! ✨
                 </marquee>
             </div>
         `;

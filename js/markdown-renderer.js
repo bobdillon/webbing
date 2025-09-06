@@ -73,8 +73,8 @@ class ContentLoader {
             this.cache.set(path, html);
             return html;
         } catch (error) {
-            console.error('Error loading markdown:', error);
-            return `<p>Error loading content from ${path}</p>`;
+            // Silently fail - don't show error messages to users
+            throw error;
         }
     }
 
@@ -137,16 +137,12 @@ class ContentLoader {
     async loadProjects() {
         const projects = [];
         
-        // Try to dynamically load all project files
-        const potentialProjects = [
-            'arcade-chassis-repair.md',
-            'ai-portfolio.md',
-            'web-development.md',
-            'machine-learning.md',
-            'retro-gaming.md'
+        // Only try to load files that we know exist
+        const knownProjects = [
+            'arcade-chassis-repair.md'
         ];
 
-        for (const file of potentialProjects) {
+        for (const file of knownProjects) {
             try {
                 const content = await this.loadMarkdown(`./content/projects/${file}`);
                 const title = this.extractTitle(content);
@@ -156,7 +152,7 @@ class ContentLoader {
                     content
                 });
             } catch (error) {
-                // Silently skip files that don't exist
+                // Skip files that don't exist without error
                 continue;
             }
         }

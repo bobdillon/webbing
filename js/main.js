@@ -39,36 +39,54 @@ class PersonalSite {
             const projects = await this.contentLoader.loadProjects();
             
             if (projects.length === 0) {
+                // Show a single card for the actual project
                 container.innerHTML = `
                     <div class="project-card">
                         <h3>🕹️ Arcade Chassis Repair Assistant</h3>
                         <p>AI-powered RAG system that helps diagnose and repair arcade machine chassis issues. Built with modern AI techniques to preserve gaming history.</p>
                         <a href="https://chassis-repair-app-r3rnc.ondigitalocean.app/" target="_blank" class="project-link">View Live Demo</a>
                     </div>
-                    <div class="project-card">
-                        <h3>🤖 AI Projects Portfolio</h3>
-                        <p>Collection of machine learning and AI projects showcasing expertise in various domains including NLP, computer vision, and data science.</p>
-                        <a href="#" class="project-link">Coming Soon</a>
-                    </div>
-                    <div class="project-card">
-                        <h3>⚡ More Projects</h3>
-                        <p>Additional projects and deployments will be featured here as they're completed. Stay tuned for exciting new developments!</p>
-                        <a href="#" class="project-link">In Development</a>
-                    </div>
                 `;
                 return;
             }
 
+            // Show projects as clean single card per project
             container.innerHTML = projects.map(project => `
-                <div class="project-card">
-                    <div class="markdown-content">${project.content}</div>
+                <div class="project-card clickable-project" data-project="${project.file}">
+                    <h3>${project.title}</h3>
+                    <p>Click to read more about this project...</p>
+                    <div class="project-link">View Details</div>
                 </div>
             `).join('');
+
+            // Add click handlers for project cards
+            container.querySelectorAll('.clickable-project').forEach(card => {
+                card.addEventListener('click', () => {
+                    const projectFile = card.dataset.project;
+                    const project = projects.find(p => p.file === projectFile);
+                    if (project) {
+                        this.showProject(project);
+                    }
+                });
+            });
             
         } catch (error) {
             console.error('Error loading projects:', error);
-            container.innerHTML = '<div class="loading">Error loading projects</div>';
+            container.innerHTML = `
+                <div class="project-card">
+                    <h3>🕹️ Arcade Chassis Repair Assistant</h3>
+                    <p>AI-powered RAG system that helps diagnose and repair arcade machine chassis issues. Built with modern AI techniques to preserve gaming history.</p>
+                    <a href="https://chassis-repair-app-r3rnc.ondigitalocean.app/" target="_blank" class="project-link">View Live Demo</a>
+                </div>
+            `;
         }
+    }
+
+    showProject(project) {
+        const modalBody = document.getElementById('modal-body');
+        modalBody.innerHTML = `<div class="markdown-content">${project.content}</div>`;
+        this.modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
     }
 
     async loadBlogPosts() {
