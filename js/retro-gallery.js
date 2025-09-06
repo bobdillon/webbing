@@ -236,42 +236,53 @@ class RetroGallery {
         
         if (!container || photos.length === 0) return;
         
-        // Wait a bit for images to load and get proper dimensions
+        // Wait longer for images to fully load and DOM to settle
         setTimeout(() => {
             let maxRight = 0;
             let maxBottom = 0;
             
-            photos.forEach(photo => {
-                // Get the photo's actual boundaries including any transforms
+            photos.forEach((photo, index) => {
+                // Get the photo's actual boundaries including captions
                 const photoLeft = parseInt(photo.style.left) || 0;
                 const photoTop = parseInt(photo.style.top) || 0;
+                
+                // Use the full height including the caption area
                 const photoWidth = photo.offsetWidth;
-                const photoHeight = photo.offsetHeight;
+                const photoHeight = photo.offsetHeight; // This should include the caption
+                
+                // Also check for any child elements that might extend beyond
+                const photoFrame = photo.querySelector('.photo-frame');
+                const caption = photo.querySelector('.photo-caption');
+                
+                let totalHeight = photoHeight;
+                if (photoFrame) {
+                    totalHeight = Math.max(totalHeight, photoFrame.offsetHeight);
+                }
                 
                 // Calculate the actual bottom and right edges
                 const photoRight = photoLeft + photoWidth;
-                const photoBottom = photoTop + photoHeight;
+                const photoBottom = photoTop + totalHeight;
                 
                 maxRight = Math.max(maxRight, photoRight);
                 maxBottom = Math.max(maxBottom, photoBottom);
                 
-                console.log(`Photo ${photoLeft},${photoTop} size ${photoWidth}x${photoHeight} bottom: ${photoBottom}`);
+                console.log(`Photo ${index}: pos(${photoLeft},${photoTop}) size(${photoWidth}x${photoHeight}) totalHeight(${totalHeight}) bottom: ${photoBottom}`);
             });
             
-            // Add generous padding so content isn't touching edges
-            const bottomPadding = 60; // Extra space below lowest photo
-            const rightPadding = 40;  // Extra space to right of rightmost photo
+            // Add extra generous padding especially at bottom
+            const bottomPadding = 80; // Even more space below lowest photo
+            const rightPadding = 40;
             
             const neededHeight = maxBottom + bottomPadding;
             const currentMinHeight = parseInt(container.style.minHeight) || 700;
             
-            // Always use the larger of current or calculated height
-            const finalHeight = Math.max(currentMinHeight, neededHeight);
+            // Always use the larger height and add extra buffer
+            const finalHeight = Math.max(currentMinHeight, neededHeight) + 20;
             
             container.style.minHeight = `${finalHeight}px`;
             
-            console.log(`Gallery final dimensions: ${photos.length} photos, container height: ${finalHeight}px, max bottom was: ${maxBottom}px`);
-        }, 100); // Small delay to ensure images are loaded
+            console.log(`🎯 Gallery final: ${photos.length} photos, container: ${finalHeight}px, maxBottom was: ${maxBottom}px`);
+        }, 250); // Longer delay for image loading
     }
 
     addBlinkingEffect() {
