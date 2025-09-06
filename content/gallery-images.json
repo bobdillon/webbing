@@ -1,0 +1,56 @@
+[
+  {
+    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_1",
+    "caption": "🕹️ 1982 Donkey Kong - Before Restoration",
+    "date": "2025-08-15",
+    "category": "before-after",
+    "rotation": "-3deg",
+    "size": "medium",
+    "isNew": false
+  },
+  {
+    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_2",
+    "caption": "💾 Circuit Board Surgery",
+    "date": "2025-09-01", 
+    "category": "repair-process",
+    "rotation": "2deg",
+    "size": "large",
+    "isNew": true
+  },
+  {
+    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_3",
+    "caption": "🔧 My Retro Repair Station",
+    "date": "2025-07-20",
+    "category": "workshop",
+    "rotation": "-1deg",
+    "size": "small",
+    "isNew": false
+  },
+  {
+    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_4",
+    "caption": "📺 CRT Monitor Restoration",
+    "date": "2025-08-30",
+    "category": "monitors",
+    "rotation": "4deg", 
+    "size": "medium",
+    "isNew": true
+  },
+  {
+    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_5",
+    "caption": "🎮 Collection Display Wall",
+    "date": "2025-06-10",
+    "category": "collection",
+    "rotation": "-2deg",
+    "size": "large",
+    "isNew": false
+  },
+  {
+    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_6",
+    "caption": "⚡ Power Supply Rebuild",
+    "date": "2025-09-03",
+    "category": "electronics",
+    "rotation": "1deg",
+    "size": "small",
+    "isNew": true
+  }
+]
