@@ -7,6 +7,38 @@
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+    <!-- Floating Retro Music Player -->
+    <div id="retro-music-player" class="music-player-container">
+        <div class="player-header">
+            <span class="player-title">🎵 Shed Workshop Vibes</span>
+            <button class="minimize-btn" onclick="togglePlayer()">−</button>
+        </div>
+        <div class="player-content">
+            <div class="now-playing">
+                <marquee id="song-title" scrollamount="2">♪ Loading awesome tunes... ♪</marquee>
+            </div>
+            <div class="player-controls">
+                <button onclick="musicPlayer.previousTrack()">⏮️</button>
+                <button id="play-pause-btn" onclick="musicPlayer.togglePlayPause()">▶️</button>
+                <button onclick="musicPlayer.nextTrack()">⏭️</button>
+                <button onclick="musicPlayer.toggleMute()">🔊</button>
+            </div>
+            <div class="equalizer">
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+            </div>
+            <div class="track-info">
+                <span id="track-counter">1 / 0</span>
+                <span class="blink-text">♪ NEW ♪</span>
+            </div>
+        </div>
+        <!-- Hidden YouTube player -->
+        <div id="youtube-player" style="display: none;"></div>
+    </div>
+
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
@@ -129,8 +161,10 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="./js/markdown-renderer.js"></script>
     <script src="./js/retro-gallery.js"></script>
+    <script src="./js/music-player.js"></script>
     <script src="./js/main.js"></script>
 </body>
 </html>
