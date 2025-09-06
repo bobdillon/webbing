@@ -251,6 +251,11 @@ section {
     100% { color: #FF0000; }
 }
 
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.2; }
+}
+
 .retro-counter {
     font-family: 'Times New Roman', serif;
     font-size: 0.9rem;
