@@ -16,6 +16,7 @@ class RetroMusicPlayer {
         this.currentTrack = 0;
         this.isPlaying = false;
         this.isMuted = false;
+        this.volume = 50; // Start at 50% volume
         this.player = null;
         this.isPlayerReady = false;
         
@@ -37,7 +38,7 @@ class RetroMusicPlayer {
             height: '1',
             width: '1',
             playerVars: {
-                'autoplay': 0,
+                'autoplay': 1,
                 'controls': 0,
                 'disablekb': 1,
                 'enablejsapi': 1,
@@ -58,10 +59,77 @@ class RetroMusicPlayer {
         this.isPlayerReady = true;
         this.loadCurrentTrack();
         
-        // Auto-start playing (if browser allows)
+        // Try multiple autoplay strategies
+        this.attemptAutoplay();
+    }
+    
+    attemptAutoplay() {
+        console.log('🎵 Attempting autoplay...');
+        
+        // Strategy 1: Immediate play
         setTimeout(() => {
             this.play();
-        }, 1000);
+            console.log('🎵 Tried immediate play');
+        }, 500);
+        
+        // Strategy 2: User interaction fallback
+        this.addUserInteractionListener();
+        
+        // Strategy 3: Periodic retry
+        let retryCount = 0;
+        const retryInterval = setInterval(() => {
+            if (!this.isPlaying && retryCount < 5) {
+                console.log(`🎵 Retry attempt ${retryCount + 1}`);
+                this.play();
+                retryCount++;
+            } else {
+                clearInterval(retryInterval);
+            }
+        }, 2000);
+    }
+    
+    addUserInteractionListener() {
+        let hasStarted = false;
+        
+        const startMusic = (event) => {
+            if (!hasStarted && !this.isPlaying) {
+                hasStarted = true;
+                console.log('🎵 User interaction detected, starting music...');
+                
+                // Force play the current track
+                this.play();
+                
+                // If that doesn't work, try loading and playing again
+                setTimeout(() => {
+                    if (!this.isPlaying) {
+                        console.log('🎵 Retrying with fresh load...');
+                        this.loadCurrentTrack();
+                        setTimeout(() => this.play(), 1000);
+                    }
+                }, 1000);
+                
+                // Remove all listeners
+                document.removeEventListener('click', startMusic);
+                document.removeEventListener('scroll', startMusic);
+                document.removeEventListener('keydown', startMusic);
+                document.removeEventListener('touchstart', startMusic);
+                document.removeEventListener('mousedown', startMusic);
+            }
+        };
+        
+        // Add multiple interaction types
+        document.addEventListener('click', startMusic);
+        document.addEventListener('scroll', startMusic);
+        document.addEventListener('keydown', startMusic);
+        document.addEventListener('touchstart', startMusic);
+        document.addEventListener('mousedown', startMusic);
+        
+        // Show message after delay
+        setTimeout(() => {
+            if (!this.isPlaying) {
+                this.updateNowPlaying("🎵 Click or scroll to start the music! 🎵");
+            }
+        }, 3000);
     }
     
     onPlayerStateChange(event) {
@@ -135,11 +203,60 @@ class RetroMusicPlayer {
         if (this.isMuted) {
             this.player.unMute();
             this.isMuted = false;
-            document.querySelector('.player-controls button:last-child').textContent = '🔊';
+            this.updateVolumeIcon();
         } else {
             this.player.mute();
             this.isMuted = true;
-            document.querySelector('.player-controls button:last-child').textContent = '🔇';
+            this.updateVolumeIcon();
+        }
+    }
+    
+    volumeUp() {
+        if (!this.isPlayerReady || !this.player) return;
+        
+        this.volume = Math.min(100, this.volume + 10); // Increase by 10, max 100
+        this.player.setVolume(this.volume);
+        
+        // Unmute if it was muted
+        if (this.isMuted) {
+            this.player.unMute();
+            this.isMuted = false;
+        }
+        
+        this.updateVolumeIcon();
+        console.log(`🔊 Volume: ${this.volume}%`);
+    }
+    
+    volumeDown() {
+        if (!this.isPlayerReady || !this.player) return;
+        
+        this.volume = Math.max(0, this.volume - 10); // Decrease by 10, min 0
+        this.player.setVolume(this.volume);
+        
+        // Auto-mute if volume reaches 0
+        if (this.volume === 0) {
+            this.isMuted = true;
+        } else if (this.isMuted) {
+            this.player.unMute();
+            this.isMuted = false;
+        }
+        
+        this.updateVolumeIcon();
+        console.log(`🔉 Volume: ${this.volume}%`);
+    }
+    
+    updateVolumeIcon() {
+        const volumeIcon = document.getElementById('volume-icon');
+        if (!volumeIcon) return;
+        
+        if (this.isMuted || this.volume === 0) {
+            volumeIcon.textContent = '🔇';
+        } else if (this.volume < 30) {
+            volumeIcon.textContent = '🔈';
+        } else if (this.volume < 70) {
+            volumeIcon.textContent = '🔉';
+        } else {
+            volumeIcon.textContent = '�';
         }
     }
     

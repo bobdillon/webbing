@@ -21,7 +21,11 @@
                 <button onclick="musicPlayer.previousTrack()">⏮️</button>
                 <button id="play-pause-btn" onclick="musicPlayer.togglePlayPause()">▶️</button>
                 <button onclick="musicPlayer.nextTrack()">⏭️</button>
-                <button onclick="musicPlayer.toggleMute()">🔊</button>
+                <div class="volume-control-group">
+                    <button onclick="musicPlayer.volumeUp()" class="volume-mini-btn volume-up">➕</button>
+                    <button onclick="musicPlayer.toggleMute()" id="volume-icon">🔊</button>
+                    <button onclick="musicPlayer.volumeDown()" class="volume-mini-btn volume-down">➖</button>
+                </div>
             </div>
             <div class="equalizer">
                 <div class="eq-bar"></div>
