@@ -107,12 +107,17 @@ class ContentLoader {
 
     async loadProjects() {
         const projects = [];
-        const projectFiles = [
+        
+        // Try to dynamically load all project files
+        const potentialProjects = [
             'arcade-chassis-repair.md',
-            'ai-portfolio.md'
+            'ai-portfolio.md',
+            'web-development.md',
+            'machine-learning.md',
+            'retro-gaming.md'
         ];
 
-        for (const file of projectFiles) {
+        for (const file of potentialProjects) {
             try {
                 const content = await this.loadMarkdown(`./content/projects/${file}`);
                 const title = this.extractTitle(content);
@@ -122,7 +127,8 @@ class ContentLoader {
                     content
                 });
             } catch (error) {
-                console.log(`Project ${file} not found yet`);
+                // Silently skip files that don't exist
+                continue;
             }
         }
         return projects;
