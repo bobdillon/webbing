@@ -88,7 +88,7 @@ class RetroGallery {
         // Create retro gallery HTML
         this.container.innerHTML = `
             <div class="retro-gallery-header">
-                <h3>📸 ~*~ David's Retro Arcade Photo Album ~*~ 📸</h3>
+                <h3>📸 ~*~ David's Retro + Arcade Photo Album ~*~ 📸</h3>
                 <div class="retro-counter">
                     <img src="https://stuff.mit.edu/afs/sipb.mit.edu/project/www/dtd/images/new.gif" alt="NEW!" class="blink-gif">
                     Visitor #${this.getRandomVisitorCount()} 

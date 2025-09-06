@@ -1,53 +1,53 @@
 [
   {
-    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_1",
-    "caption": "🕹️ 1982 Donkey Kong - Before Restoration",
+    "url": "https://drive.google.com/uc?export=view&id=1jWU1dqcTvlwqynryf9VAN5JXmhw9nFV5",
+    "caption": "Inside a laserdisc player that won't spin up",
     "date": "2025-08-15",
-    "category": "before-after",
+    "category": "repair-process",
     "rotation": "-3deg",
     "size": "medium",
     "isNew": false
   },
   {
-    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_2",
-    "caption": "💾 Circuit Board Surgery",
-    "date": "2025-09-01", 
+    "url": "https://drive.google.com/uc?export=view&id=1MCTqCJN1Bxh6YYTzGKh5Q6UldT5Z8QmC",
+    "caption": "Inside a laserdisc player that won't spin up",
+    "date": "2025-08-15",
     "category": "repair-process",
     "rotation": "2deg",
     "size": "large",
-    "isNew": true
+    "isNew": false
   },
   {
-    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_3",
-    "caption": "🔧 My Retro Repair Station",
-    "date": "2025-07-20",
-    "category": "workshop",
-    "rotation": "-1deg",
+    "url": "https://drive.google.com/uc?export=view&id=1FdIm-CUx8f1jMR6hOZHTo7vG0IWBKyoY",
+    "caption": "New belts for an LD player",
+    "date": "2025-08-15",
+    "category": "repair-process",
+    "rotation": "-2deg",
     "size": "small",
     "isNew": false
   },
   {
-    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_4",
-    "caption": "📺 CRT Monitor Restoration",
-    "date": "2025-08-30",
-    "category": "monitors",
-    "rotation": "4deg", 
-    "size": "medium",
-    "isNew": true
-  },
-  {
-    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_5",
-    "caption": "🎮 Collection Display Wall",
-    "date": "2025-06-10",
-    "category": "collection",
-    "rotation": "-2deg",
+    "url": "https://drive.google.com/uc?export=view&id=1NDIbV9-EEwBW_qvL87lX0rnyvmTYe9Q3",
+    "caption": "New belts for an LD player",
+    "date": "2025-08-15",
+    "category": "repair-process",
+    "rotation": "-3deg",
     "size": "large",
     "isNew": false
   },
   {
-    "url": "https://drive.google.com/uc?export=view&id=SAMPLE_ID_6",
-    "caption": "⚡ Power Supply Rebuild",
-    "date": "2025-09-03",
+    "url": "https://drive.google.com/uc?export=view&id=11dj_POQj0FdO2yEEAD6xb42TJoxw_nK7",
+    "caption": "Old water damaged Sinistar arcade cabinet doors",
+    "date": "2025-07-11",
+    "category": "electronics",
+    "rotation": "-2deg",
+    "size": "large",
+    "isNew": true
+  },
+  {
+    "url": "https://drive.google.com/uc?export=view&id=123cx2Mb93cxIkJWBRJN7lRWLWIRL6l6Y",
+    "caption": "Crazy stock sinistar power supply",
+    "date": "2025-07-11",
     "category": "electronics",
     "rotation": "1deg",
     "size": "small",

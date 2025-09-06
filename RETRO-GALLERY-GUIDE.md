@@ -21,7 +21,7 @@
 ## 🚀 **Quick Start:**
 
 ### **Step 1: Upload Photos to Google Drive**
-1. Create a folder: "Retro Arcade Gallery"
+1. Create a folder: "Retro + Arcade Gallery"
 2. Upload your arcade machine photos
 3. Set folder to "Anyone with link can view"
 
@@ -143,7 +143,7 @@ This gallery captures the authentic feel of **early 2000s personal websites**:
 - When people actually decorated their online spaces
 - Before everything became "clean" and "minimal"  
 - When websites had personality and quirks
-- Perfect match for retro arcade restoration hobby!
+- Perfect match for Retro + Arcade restoration hobby!
 
 Your visitors will get hit with pure nostalgia while seeing your impressive technical work. It's functional **AND** memorable! 🌟
 
