@@ -102,8 +102,10 @@ nav {
 .social-link {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
-    padding: 0.8rem 1.5rem;
+    padding: 0.8rem 1rem;
+    width: 200px;
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 50px;
@@ -111,6 +113,7 @@ nav {
     color: white;
     transition: all 0.3s ease;
     font-weight: 500;
+    text-align: center;
 }
 
 .social-link:hover {
@@ -259,7 +262,7 @@ section {
 /* Retro Music Player */
 .music-player-container {
     position: fixed;
-    top: 20px;
+    top: 80px;
     right: 20px;
     width: 280px;
     background: linear-gradient(45deg, #c0c0c0, #e0e0e0);
@@ -597,10 +600,11 @@ section {
 
 /* Guestbook Section */
 #guestbook {
-    padding: 2rem 0;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
     background: linear-gradient(45deg, #e6f3ff, #f0f8ff);
     border: 3px ridge #c0c0c0;
-    margin: 2rem 0;
     position: relative;
 }
 
