@@ -138,6 +138,9 @@ class RetroGallery {
     }
 
     addRetroEffects() {
+        // Dynamic positioning for unlimited photos
+        this.positionPhotosRandomly();
+        
         // Add click sound effects (optional)
         const photos = document.querySelectorAll('.retro-photo');
         photos.forEach(photo => {
@@ -162,6 +165,113 @@ class RetroGallery {
 
         // Blinking text effect
         this.addBlinkingEffect();
+    }
+
+    positionPhotosRandomly() {
+        const photos = document.querySelectorAll('.retro-photo');
+        const container = document.querySelector('.photo-collage');
+        const containerPadding = 20;
+        
+        if (!container || photos.length === 0) return;
+        
+        // Calculate container dimensions
+        const containerWidth = container.offsetWidth - (containerPadding * 2);
+        const initialHeight = Math.max(700, Math.ceil(photos.length / 3) * 200);
+        
+        // Track occupied areas to prevent excessive overlap
+        const occupiedAreas = [];
+        
+        photos.forEach((photo, index) => {
+            // Get photo dimensions
+            const photoWidth = photo.offsetWidth || 250; // fallback width
+            const photoHeight = photo.offsetHeight || 200; // fallback height
+            
+            let attempts = 0;
+            let positioned = false;
+            
+            while (!positioned && attempts < 50) {
+                // Generate random position within initial bounds (we'll adjust container size later)
+                const maxLeft = containerWidth - photoWidth;
+                const maxTop = initialHeight - photoHeight - 50; // Leave space at bottom
+                
+                const left = Math.random() * maxLeft;
+                const top = Math.random() * maxTop + 20; // Start 20px from top
+                
+                // Check for excessive overlap with existing photos
+                const newArea = { left, top, right: left + photoWidth, bottom: top + photoHeight };
+                const hasExcessiveOverlap = occupiedAreas.some(area => {
+                    const overlapX = Math.max(0, Math.min(newArea.right, area.right) - Math.max(newArea.left, area.left));
+                    const overlapY = Math.max(0, Math.min(newArea.bottom, area.bottom) - Math.max(newArea.top, area.top));
+                    const overlapArea = overlapX * overlapY;
+                    const newPhotoArea = photoWidth * photoHeight;
+                    return (overlapArea / newPhotoArea) > 0.3; // Allow up to 30% overlap
+                });
+                
+                if (!hasExcessiveOverlap || attempts > 40) {
+                    // Position the photo
+                    photo.style.left = `${left}px`;
+                    photo.style.top = `${top}px`;
+                    photo.style.position = 'absolute';
+                    
+                    // Use the rotation from JSON, don't override it!
+                    // The rotation is already set in the HTML via createPhotoHTML()
+                    // No need to add random rotation here
+                    
+                    // Track this area
+                    occupiedAreas.push(newArea);
+                    positioned = true;
+                }
+                
+                attempts++;
+            }
+        });
+        
+        // IMPORTANT: After positioning all photos, calculate the actual boundaries needed
+        this.adjustContainerToFitAllPhotos();
+    }
+    
+    adjustContainerToFitAllPhotos() {
+        const photos = document.querySelectorAll('.retro-photo');
+        const container = document.querySelector('.photo-collage');
+        
+        if (!container || photos.length === 0) return;
+        
+        // Wait a bit for images to load and get proper dimensions
+        setTimeout(() => {
+            let maxRight = 0;
+            let maxBottom = 0;
+            
+            photos.forEach(photo => {
+                // Get the photo's actual boundaries including any transforms
+                const photoLeft = parseInt(photo.style.left) || 0;
+                const photoTop = parseInt(photo.style.top) || 0;
+                const photoWidth = photo.offsetWidth;
+                const photoHeight = photo.offsetHeight;
+                
+                // Calculate the actual bottom and right edges
+                const photoRight = photoLeft + photoWidth;
+                const photoBottom = photoTop + photoHeight;
+                
+                maxRight = Math.max(maxRight, photoRight);
+                maxBottom = Math.max(maxBottom, photoBottom);
+                
+                console.log(`Photo ${photoLeft},${photoTop} size ${photoWidth}x${photoHeight} bottom: ${photoBottom}`);
+            });
+            
+            // Add generous padding so content isn't touching edges
+            const bottomPadding = 60; // Extra space below lowest photo
+            const rightPadding = 40;  // Extra space to right of rightmost photo
+            
+            const neededHeight = maxBottom + bottomPadding;
+            const currentMinHeight = parseInt(container.style.minHeight) || 700;
+            
+            // Always use the larger of current or calculated height
+            const finalHeight = Math.max(currentMinHeight, neededHeight);
+            
+            container.style.minHeight = `${finalHeight}px`;
+            
+            console.log(`Gallery final dimensions: ${photos.length} photos, container height: ${finalHeight}px, max bottom was: ${maxBottom}px`);
+        }, 100); // Small delay to ensure images are loaded
     }
 
     addBlinkingEffect() {
