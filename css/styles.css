@@ -432,6 +432,32 @@ section {
     transform: translateY(-2px);
 }
 
+/* Draft Cards */
+.draft-card {
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    cursor: default;
+    opacity: 0.8;
+    position: relative;
+}
+
+.draft-card:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.draft-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #6c757d;
+    color: white;
+    padding: 0.3rem 0.7rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
 .blog-date {
     color: #666;
     font-size: 0.9rem;

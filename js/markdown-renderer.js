@@ -80,13 +80,21 @@ class ContentLoader {
 
     async loadBlogPosts() {
         const posts = [];
-        const postFiles = [
+        
+        // Load published posts from /content/blog/
+        const publishedFiles = [
+            // Add actual blog post filenames here when ready to publish
+        ];
+
+        // Load draft previews from /content/blog/drafts/
+        const draftFiles = [
             'strength-and-code.md',
             'arcade-restoration.md',
             'ai-retro-gaming.md'
         ];
 
-        for (const file of postFiles) {
+        // Load published posts
+        for (const file of publishedFiles) {
             try {
                 const content = await this.loadMarkdown(`./content/blog/${file}`);
                 const title = this.extractTitle(content);
@@ -96,12 +104,33 @@ class ContentLoader {
                     title,
                     excerpt,
                     content,
-                    date: this.getDateFromFilename(file)
+                    date: this.getDateFromFilename(file),
+                    status: 'published'
                 });
             } catch (error) {
-                console.log(`Blog post ${file} not found yet`);
+                console.log(`Published post ${file} not found`);
             }
         }
+
+        // Load draft previews (titles only)
+        for (const file of draftFiles) {
+            try {
+                const content = await this.loadMarkdown(`./content/blog/drafts/${file}`);
+                const title = this.extractTitle(content);
+                posts.push({
+                    file,
+                    title,
+                    excerpt: 'Coming soon...',
+                    content: null,
+                    date: 'Draft',
+                    status: 'draft'
+                });
+            } catch (error) {
+                // Silently skip missing drafts
+                continue;
+            }
+        }
+
         return posts;
     }
 

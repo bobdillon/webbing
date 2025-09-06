@@ -98,20 +98,26 @@ class PersonalSite {
                 return;
             }
 
-            container.innerHTML = posts.map(post => `
-                <div class="blog-card" data-post="${post.file}">
-                    <div class="blog-date">${post.date}</div>
-                    <h3>${post.title}</h3>
-                    <p class="blog-excerpt">${post.excerpt}</p>
-                </div>
-            `).join('');
+            container.innerHTML = posts.map(post => {
+                const cardClass = post.status === 'draft' ? 'blog-card draft-card' : 'blog-card';
+                const clickable = post.status === 'published' ? `data-post="${post.file}"` : '';
+                
+                return `
+                    <div class="${cardClass}" ${clickable}>
+                        <div class="blog-date">${post.date}</div>
+                        <h3>${post.title}</h3>
+                        <p class="blog-excerpt">${post.excerpt}</p>
+                        ${post.status === 'draft' ? '<div class="draft-badge">✍️ Draft</div>' : ''}
+                    </div>
+                `;
+            }).join('');
 
-            // Add click handlers for blog cards
-            container.querySelectorAll('.blog-card').forEach(card => {
+            // Add click handlers only for published blog cards
+            container.querySelectorAll('.blog-card:not(.draft-card)').forEach(card => {
                 card.addEventListener('click', () => {
                     const postFile = card.dataset.post;
                     const post = posts.find(p => p.file === postFile);
-                    if (post) {
+                    if (post && post.status === 'published') {
                         this.showBlogPost(post);
                     }
                 });
