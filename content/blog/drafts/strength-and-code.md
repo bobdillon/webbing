@@ -46,4 +46,4 @@ Both are tools for building something better than yesterday.
 
 ---
 
-*What parallels do you see between your hobbies and your work? I'd love to hear your thoughts - hit me up on [X](https://x.com/ds_nein).*
+*What parallels do you see between your hobbies and your work? I'd love to hear your thoughts - hit me up on [X](https://x.com/dsnein).*
