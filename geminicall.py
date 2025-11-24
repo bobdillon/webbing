@@ -1,9 +1,14 @@
 import google.generativeai as genai
 import os
+from dotenv import load_dotenv
 
-api_key = os.getenv("gemini_api_key")
-genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-1.5-flash')  # or 'gemini-pro'
+# Load the .env file
+load_dotenv()
 
-response = model.generate_content("Hello, how are you, lmk in emojis?")
+
+gemini_api_key = os.getenv("gemini_api_key")
+genai.configure(api_key=gemini_api_key)
+model = genai.GenerativeModel('gemini-2.5-flash')  # or 'gemini-pro'
+
+response = model.generate_content("Hello, how are you? lmk only with emojis.")
 print(response.text)
