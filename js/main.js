@@ -54,7 +54,7 @@ class PersonalSite {
             container.innerHTML = projects.map(project => `
                 <div class="project-card clickable-project" data-project="${project.file}">
                     <h3>${project.title}</h3>
-                    <p>Click to read more about this project...</p>
+                    <p>${project.summary || 'Click to read more about this project...'}</p>
                     <div class="project-link">View Details</div>
                 </div>
             `).join('');
@@ -96,23 +96,8 @@ class PersonalSite {
             const posts = await this.contentLoader.loadBlogPosts();
             
             if (posts.length === 0) {
-                container.innerHTML = `
-                    <div class="blog-card">
-                        <div class="blog-date">Coming Soon</div>
-                        <h3>💪 Building Strength & Code</h3>
-                        <p class="blog-excerpt">Exploring the parallels between weight training discipline and software development mastery.</p>
-                    </div>
-                    <div class="blog-card">
-                        <div class="blog-date">Coming Soon</div>
-                        <h3>🔧 Arcade Restoration Techniques</h3>
-                        <p class="blog-excerpt">Deep dive into the art and science of bringing classic arcade machines back to life.</p>
-                    </div>
-                    <div class="blog-card">
-                        <div class="blog-date">Coming Soon</div>
-                        <h3>🤖 AI in Retro Gaming</h3>
-                        <p class="blog-excerpt">How modern AI can help preserve and enhance vintage gaming experiences.</p>
-                    </div>
-                `;
+                // No posts yet: hide the Blog section and its nav link until one is published
+                this.hideBlogSection();
                 return;
             }
 
@@ -143,8 +128,15 @@ class PersonalSite {
             
         } catch (error) {
             console.error('Error loading blog posts:', error);
-            container.innerHTML = '<div class="loading">Error loading blog posts</div>';
+            this.hideBlogSection();
         }
+    }
+
+    hideBlogSection() {
+        const section = document.getElementById('blog');
+        if (section) section.style.display = 'none';
+        const navLink = document.querySelector('.nav-links a[href="#blog"]');
+        if (navLink && navLink.parentElement) navLink.parentElement.style.display = 'none';
     }
 
     showBlogPost(post) {

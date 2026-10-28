@@ -86,12 +86,9 @@ class ContentLoader {
             // Add actual blog post filenames here when ready to publish
         ];
 
-        // Load draft previews from /content/blog/drafts/
-        const draftFiles = [
-            'strength-and-code.md',
-            'arcade-restoration.md',
-            'ai-retro-gaming.md'
-        ];
+        // Draft previews from /content/blog/drafts/ are no longer listed on the site.
+        // The draft files stay in the repo; add a filename here to show it as a draft card again.
+        const draftFiles = [];
 
         // Load published posts
         for (const file of publishedFiles) {
@@ -138,17 +135,22 @@ class ContentLoader {
         const projects = [];
         
         // Only try to load files that we know exist
+        // Each project: markdown file + one-line summary shown on its card
         const knownProjects = [
-            'arcade-chassis-repair.md'
+            {
+                file: 'arcade-chassis-repair.md',
+                summary: 'RAG assistant for arcade monitor repair. Describe the symptoms and get likely causes, troubleshooting steps, and YouTube repair videos at the exact timestamp.'
+            }
         ];
 
-        for (const file of knownProjects) {
+        for (const { file, summary } of knownProjects) {
             try {
                 const content = await this.loadMarkdown(`./content/projects/${file}`);
                 const title = this.extractTitle(content);
                 projects.push({
                     file,
                     title,
+                    summary,
                     content
                 });
             } catch (error) {
