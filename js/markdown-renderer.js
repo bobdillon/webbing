@@ -82,6 +82,8 @@ class ContentLoader {
         const posts = [];
         
         // Load published posts from /content/blog/
+        // Name each file YYYY-MM-DD-slug.md (e.g. 2026-10-29-claude-grok-bridge.md);
+        // the date in the name is the publish date shown on the card. Newest shows first.
         const publishedFiles = [
             // Add actual blog post filenames here when ready to publish
         ];
@@ -96,18 +98,23 @@ class ContentLoader {
                 const content = await this.loadMarkdown(`./content/blog/${file}`);
                 const title = this.extractTitle(content);
                 const excerpt = this.extractExcerpt(content);
+                const published = this.getPublishDate(file, content);
                 posts.push({
                     file,
                     title,
                     excerpt,
                     content,
-                    date: this.getDateFromFilename(file),
+                    published,
+                    date: published ? this.formatDate(published) : '',
                     status: 'published'
                 });
             } catch (error) {
                 console.log(`Published post ${file} not found`);
             }
         }
+
+        // Newest first; posts without a date go last
+        posts.sort((a, b) => (b.published || 0) - (a.published || 0));
 
         // Load draft previews (titles only)
         for (const file of draftFiles) {
@@ -173,9 +180,25 @@ class ContentLoader {
             : textContent;
     }
 
-    getDateFromFilename(filename) {
-        // Simple date extraction - you can enhance this
-        return new Date().toLocaleDateString();
+    // Publish date: YYYY-MM-DD at the start of the filename, otherwise a
+    // "Published: <date>" line in the post. Returns null if neither is found.
+    getPublishDate(filename, content) {
+        const m = filename.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (m) {
+            // Build in local time so the day doesn't shift across time zones
+            return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+        }
+        const text = (content || '').replace(/<[^>]*>/g, '');
+        const p = text.match(/Published:\s*([A-Za-z]+ \d{1,2},? \d{4})/);
+        if (p) {
+            const d = new Date(p[1]);
+            if (!isNaN(d)) return d;
+        }
+        return null;
+    }
+
+    formatDate(date) {
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
 }
 
